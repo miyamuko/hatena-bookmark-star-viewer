@@ -1,5 +1,7 @@
 2011-04-15  MIYAMUKO Katsuyuki
 
+	* コメント数が 0 のブックマークは表示しないようにした
+
 	* キャッシュを使わないように :since :epoch を追加
 
 2010-06-10  MIYAMUKO Katsuyuki
