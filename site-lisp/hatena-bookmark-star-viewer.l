@@ -201,7 +201,7 @@
   (concat "http://b.hatena.ne.jp/entry/" uri))
 
 (defun hatena-bookmark-entry-json-uri (uri)
-  (concat "http://b.hatena.ne.jp/entry/json/" uri))
+  (concat "http://b.hatena.ne.jp/entry/jsonlite/?url=" uri))
 
 (defun bookmark-permalink (boomkark)
   (let ((eid (cdr (assoc "eid" bookmark :test 'equal))))

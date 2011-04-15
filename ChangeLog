@@ -1,5 +1,9 @@
 2011-04-15  MIYAMUKO Katsuyuki
 
+	* 関連エントリー(related) 情報を返却しない代わりにより高速なレスポンスで返却する
+	/entry/jsonlite/ API を利用するようにした
+	http://developer.hatena.ne.jp/ja/documents/bookmark/apis/getinfo
+
 	* コメント数が 0 のブックマークは表示しないようにした
 
 	* キャッシュを使わないように :since :epoch を追加
