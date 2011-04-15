@@ -1,4 +1,4 @@
-== hatena-bookmark-star-viewer - 東京電力の電力供給量をモードラインに表示
+== hatena-bookmark-star-viewer - はてなブックマークとはてなスターを表示する
 
 * Home URL: http://github.com/miyamuko/hatena-bookmark-star-viewer
 * Version: 0.0.1
