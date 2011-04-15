@@ -1,0 +1,21 @@
+2010-06-10  MIYAMUKO Katsuyuki
+
+	* Move to GitHub.
+
+2008-07-14  MIYAMUKO Katsuyuki
+
+	* lang/xyzzy/hatena-bookmark-star-viewer:
+	  - html unescape
+	  -  ...
+
+2008-03-31  MIYAMUKO Katsuyuki
+
+	* lang/xyzzy/hatena-bookmark-star-viewer: 色をつけた。
+
+2008-03-09  MIYAMUKO Katsuyuki
+
+	* lang/xyzzy/hatena-bookmark-star-viewer: support meta bookmark.
+
+2008-03-03  MIYAMUKO Katsuyuki
+
+	* lang/xyzzy/hatena-bookmark-star-viewer: initial commit.

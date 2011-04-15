@@ -27,22 +27,6 @@
 ;; OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 ;; WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-;;; Commentary:
-;;
-;; * カーソル下の URI のはてなブックマークコメント、はてなスターを表示できます。
-;;
-;; * リージョン内の URI をすべて抽出してはてなスター・はてなブックマークコメントを
-;;   表示できます。
-;;
-;; * clickable-uri を使っているので、NetInstaller からインストールしてください。
-;;
-;; * 使い方
-;;
-;;   - URI の上で C-c i
-;;   - URI を含む範囲をリージョンで囲って M-x show-region-hatena-star-and-bookmarks
-;;
-
-
 ;;; Code:
 
 (in-package :lisp)
