@@ -2,7 +2,7 @@
 
 ;;; hatena-bookmark-star-viewer.l --- Hatena Bookmark & Star viewer
 ;;
-;; Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;; Copyright (c) 2008,2011 MIYAMUKO Katsuyuki.
 ;;
 ;; Author: MIYAMUKO Katsuyuki <miyamuko@gmail.com>
 ;; Version: 0.4
@@ -122,7 +122,8 @@
 (defun show-hatena-star/bookmark-later (uri)
   (let* ((uri (remove-query-string uri))
          (bookmark (xhr-get-future (hatena-bookmark-entry-json-uri uri)
-                                   :key 'xhr-response-text))
+                                   :key 'xhr-response-text
+                                   :since :epoch))
          (org (selected-buffer))
          (win (selected-window))
          (b (get-buffer-create "*Hatena:Star/Bookmark*")))
@@ -188,7 +189,8 @@
             (invoke-later 0.5
               (render-bookmark (hatena-bookmark-entry-uri uri)
                                (xhr-get-future (hatena-bookmark-entry-json-uri (hatena-bookmark-entry-uri uri))
-                                               :key 'xhr-response-text)
+                                               :key 'xhr-response-text
+                                               :since :epoch)
                                buffer)))
           )))))
 
