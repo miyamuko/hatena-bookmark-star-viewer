@@ -1,3 +1,7 @@
+2011-04-27  MIYAMUKO Katsuyuki
+
+	* (hatena-bookmark-entry-json-uri): url パラメータをエンコードするのを忘れてた...
+
 2011-04-15  MIYAMUKO Katsuyuki
 
 	* 関連エントリー(related) 情報を返却しない代わりにより高速なレスポンスで返却する
