@@ -33,7 +33,7 @@
 
 (require "clickable-uri")
 (require "hatena-star/api")
-(require "xml-http-request")
+(require "http-client")
 (require "json")
 
 (defpackage :hatena-bookmark-star-viewer
@@ -41,7 +41,7 @@
    :lisp :editor
 
    :hatena-star.api
-   :xml-http-request
+   :http-client
    :json
    ))
 (use-package :hatena-bookmark-star-viewer :user)
@@ -121,9 +121,7 @@
 
 (defun show-hatena-star/bookmark-later (uri)
   (let* ((uri (remove-query-string uri))
-         (bookmark (xhr-get-future (hatena-bookmark-entry-json-uri uri)
-                                   :key 'xhr-response-text
-                                   :since :epoch))
+         (bookmark (http-get (hatena-bookmark-entry-json-uri uri)))
          (org (selected-buffer))
          (win (selected-window))
          (b (get-buffer-create "*Hatena:Star/Bookmark*")))
@@ -164,34 +162,31 @@
             (puts "~20A「~A」\n" "" (html-unescape q)))))
       (puts "\n"))))
 
-(defun render-bookmark (uri future buffer)
-  (let ((bookmark (xhr-future-value future :timeout 0)))
-    (if (not bookmark)
-        (invoke-later 0.5
-          (render-bookmark uri future buffer))
-      (let ((bookmark (json-decode bookmark :strict nil)))
-        (when (and ($ "count" bookmark) (string/= ($ "count" bookmark) "0"))
-          (with-render-buffer (buffer)
-            (puts "----------------------------------------------------------------------\n")
-            (puts "~A の~%" uri)
-            (puts "はてなブックマーク数: ~A: ~A~%~%"
-                  ($ "title" bookmark)
-                  (or ($ "count" bookmark) "0"))
-            (dolist (b ($ "bookmarks" bookmark))
-              (let ((c ($ "comment" b)))
-                (when (and c (string/= c ""))
-                  (with-color (:foreground 15)
-                    (puts "~A ~A ~{[~A]~}~%" ($ "timestamp" b) ($ "user" b) ($ "tags" b)))
-                  (puts "~A~%" (html-unescape c))
-                  )))
-            (puts "\n")
-            (invoke-later 0.5
-              (render-bookmark (hatena-bookmark-entry-uri uri)
-                               (xhr-get-future (hatena-bookmark-entry-json-uri (hatena-bookmark-entry-uri uri))
-                                               :key 'xhr-response-text
-                                               :since :epoch)
-                               buffer)))
-          )))))
+(defun render-bookmark (uri client buffer)
+  (if (http-response-waiting-p client)
+      (invoke-later 0.5
+        (render-bookmark uri client buffer))
+    (let ((bookmark (json-decode (http-response-result client) :strict nil)))
+      (when (and ($ "count" bookmark) (string/= ($ "count" bookmark) "0"))
+        (with-render-buffer (buffer)
+          (puts "----------------------------------------------------------------------\n")
+          (puts "~A の~%" uri)
+          (puts "はてなブックマーク数: ~A: ~A~%~%"
+                ($ "title" bookmark)
+                (or ($ "count" bookmark) "0"))
+          (dolist (b ($ "bookmarks" bookmark))
+            (let ((c ($ "comment" b)))
+              (when (and c (string/= c ""))
+                (with-color (:foreground 15)
+                  (puts "~A ~A ~{[~A]~}~%" ($ "timestamp" b) ($ "user" b) ($ "tags" b)))
+                (puts "~A~%" (html-unescape c))
+                )))
+          (puts "\n")
+          (invoke-later 0.5
+            (render-bookmark (hatena-bookmark-entry-uri uri)
+                             (http-get (hatena-bookmark-entry-json-uri (hatena-bookmark-entry-uri uri)))
+                             buffer)))
+        ))))
 
 (defun remove-query-string (uri)
   uri)
