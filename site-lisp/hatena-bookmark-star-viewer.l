@@ -107,8 +107,12 @@
 
 (defun show-region-hatena-star-and-bookmarks (s e)
   (interactive "r")
-  (dolist (uri (scan-uris-region s e))
-    (show-hatena-star/bookmark-later uri)))
+  (labels ((f (uris)
+             (when uris
+               (show-hatena-star/bookmark-later (car uris))
+               (invoke-later 0.3
+                 (f (cdr uris))))))
+    (f (scan-uris-region s e))))
 
 (defun show-current-link-hatena-star/bookmark ()
   (interactive)
